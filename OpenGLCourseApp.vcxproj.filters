@@ -19,4 +19,9 @@
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore">
+      <Filter>Arquivos de Origem</Filter>
+    </None>
+  </ItemGroup>
 </Project>
