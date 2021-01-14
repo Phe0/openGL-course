@@ -13,15 +13,44 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Arquivos de Origem\Renderer">
+      <UniqueIdentifier>{920d6cd5-9de7-451c-bd07-30e8bc639b86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\SpinnyCube">
+      <UniqueIdentifier>{fd5a2b5a-62cd-42b5-9147-ed0035000c1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Triangle">
+      <UniqueIdentifier>{bf9fa397-2336-47a6-8c5e-c286be5c583c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Arquivos de Origem\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="SpinnyCube.cpp">
+      <Filter>Arquivos de Origem\SpinnyCube</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>Arquivos de Origem\Triangle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore">
       <Filter>Arquivos de Origem</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Renderer.hpp">
+      <Filter>Arquivos de Origem\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="SpinnyCube.hpp">
+      <Filter>Arquivos de Origem\SpinnyCube</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.hpp">
+      <Filter>Arquivos de Origem\Triangle</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
