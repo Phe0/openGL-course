@@ -1,7 +1,7 @@
-#include "SpinnyCube.hpp"
+#include "Triangle.hpp"
 
 int main() {
-    SpinnyCube* program = new SpinnyCube;
+    Triangle* program = new Triangle;
 
     return program->runProject();
 }

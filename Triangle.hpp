@@ -1,4 +1,5 @@
 #include "Renderer.hpp"
+#include <cmath>
 
 #ifndef TRIANGLE_HPP
 #define TRIANGLE_HPP
@@ -8,6 +9,7 @@ public:
 
 	GLuint vao;
 	GLuint vbo;
+	GLuint uniformXMove;
 
 	Triangle();
 	void startup();
