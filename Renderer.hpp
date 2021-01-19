@@ -17,7 +17,6 @@ public:
 
 	Renderer();
 	int runProject();
-	void addShader(GLenum type, const char* source);
 
 protected:
 	virtual void startup() = 0;

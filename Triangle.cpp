@@ -1,34 +1,10 @@
 #include "Triangle.hpp"
 
 // vertex shader
-static const char* vShader = R"""(
-    #version 330
-
-    layout(location = 0) in vec3 pos;
-
-    out vec4 vCol;
-
-    uniform mat4 model;
-    uniform mat4 projection;
-
-    void main() {
-        gl_Position = projection * model * vec4(pos, 1.0);
-        vCol = vec4(clamp(pos, 0.0f, 1.0f), 1.0f);
-    }
-)""";
+static const char* vShader = "Shaders/shader.vert";
 
 // fragment shader
-static const char* fShader = R"""(
-    #version 330
-
-    in vec4 vCol;
-
-    out vec4 colour;
-
-    void main() {
-        colour = vCol;
-    }
-)""";
+static const char* fShader = "Shaders/shader.frag";
 
 float direction = true;
 float offset = 0.0f;
@@ -54,10 +30,10 @@ void Triangle::startup() {
     glEnable(GL_DEPTH_TEST);
 
 	this->createTriangle();
-	this->compileShaders();
+    this->createShaders();
 
-    this->uniformModel = glGetUniformLocation(this->program, "model");
-    this->uniformProjection = glGetUniformLocation(this->program, "projection");
+    GLuint uniformModel = 0;
+    GLuint uniformProject = 0;
 
     this->projection = glm::perspective(45.0f, (GLfloat)this->bufferWidth / (GLfloat)this->bufferHeight, 0.1f, 100.0f);
 }
@@ -95,7 +71,9 @@ void Triangle::render(double time) {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glUseProgram(this->program);
+    this->shaderList[0].useShader();
+    uniformModel = shaderList[0].getModelLocation();
+    uniformProjection = shaderList[0].getProjectionLocation();
 
     glm::mat4 model = glm::mat4(1.0f);
     model =
@@ -136,33 +114,8 @@ void Triangle::createTriangle() {
     meshList.push_back(obj1);
 }
 
-void Triangle::compileShaders() {
-    this->program = glCreateProgram();
-
-    if (!this->program) {
-        printf("Erro creating shader program!\n");
-        return;
-    }
-
-    this->addShader(GL_VERTEX_SHADER, vShader);
-    this->addShader(GL_FRAGMENT_SHADER, fShader);
-
-    GLint result = 0;
-    GLchar eLog[1024] = { 0 };
-
-    glLinkProgram(this->program);
-    glGetProgramiv(this->program, GL_LINK_STATUS, &result);
-    if (!result) {
-        glGetProgramInfoLog(this->program, sizeof(eLog), NULL, eLog);
-        printf("Error linking program: '%s'\n", eLog);
-        return;
-    }
-
-    glValidateProgram(this->program);
-    glGetProgramiv(this->program, GL_VALIDATE_STATUS, &result);
-    if (!result) {
-        glGetProgramInfoLog(this->program, sizeof(eLog), NULL, eLog);
-        printf("Error validating program: '%s'\n", eLog);
-        return;
-    }
+void Triangle::createShaders() {
+    Shader* shader1 = new Shader();
+    shader1->createFromFiles(vShader, fShader);
+    this->shaderList.push_back(*shader1);
 }

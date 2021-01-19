@@ -158,7 +158,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="SpinnyCube.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -167,7 +167,7 @@
   <ItemGroup>
     <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="Renderer.hpp" />
-    <ClInclude Include="SpinnyCube.hpp" />
+    <ClInclude Include="Shader.hpp" />
     <ClInclude Include="Triangle.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

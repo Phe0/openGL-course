@@ -16,14 +16,14 @@
     <Filter Include="Arquivos de Origem\Renderer">
       <UniqueIdentifier>{920d6cd5-9de7-451c-bd07-30e8bc639b86}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Arquivos de Origem\SpinnyCube">
-      <UniqueIdentifier>{fd5a2b5a-62cd-42b5-9147-ed0035000c1f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Arquivos de Origem\Triangle">
       <UniqueIdentifier>{bf9fa397-2336-47a6-8c5e-c286be5c583c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Arquivos de Origem\Mesh">
       <UniqueIdentifier>{d757418c-85d6-4df1-9d6c-89c23b08bcbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Shader">
+      <UniqueIdentifier>{6e88afcf-8d65-4cfa-a6d0-afb962bf3bec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,14 +33,14 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Arquivos de Origem\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="SpinnyCube.cpp">
-      <Filter>Arquivos de Origem\SpinnyCube</Filter>
-    </ClCompile>
     <ClCompile Include="Triangle.cpp">
       <Filter>Arquivos de Origem\Triangle</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Arquivos de Origem\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Arquivos de Origem\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,14 +52,14 @@
     <ClInclude Include="Renderer.hpp">
       <Filter>Arquivos de Origem\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="SpinnyCube.hpp">
-      <Filter>Arquivos de Origem\SpinnyCube</Filter>
-    </ClInclude>
     <ClInclude Include="Triangle.hpp">
       <Filter>Arquivos de Origem\Triangle</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.hpp">
       <Filter>Arquivos de Origem\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.hpp">
+      <Filter>Arquivos de Origem\Shader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

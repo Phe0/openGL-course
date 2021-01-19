@@ -8,6 +8,7 @@
 #include <gtc/type_ptr.hpp>
 
 #include "Mesh.hpp"
+#include "Shader.hpp"
 
 #ifndef TRIANGLE_HPP
 #define TRIANGLE_HPP
@@ -18,6 +19,7 @@ public:
 	GLuint uniformModel;
 	GLuint uniformProjection;
 	std::vector<Mesh*> meshList;
+	std::vector<Shader> shaderList;
 
 	glm::mat4 projection;
 
@@ -26,7 +28,7 @@ public:
 	void render(double time);
 	void finish();
 	void createTriangle();
-	void compileShaders();
+	void createShaders();
 };
 
 #endif

@@ -63,28 +63,3 @@ int Renderer::runProject() {
 
 	return 0;
 }
-
-void Renderer::addShader(GLenum type, const char* source) {
-	GLuint shader = glCreateShader(type);
-
-	const GLchar* theCode[1];
-	theCode[0] = source;
-
-	GLint codeLength[1];
-	codeLength[0] = strlen(source);
-
-	glShaderSource(shader, 1, theCode, codeLength);
-	glCompileShader(shader);
-
-	GLint result = 0;
-	GLchar eLog[1024] = { 0 };
-
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
-	if (!result) {
-		glGetShaderInfoLog(shader, sizeof(eLog), NULL, eLog);
-		printf("Erro compiling the %d shader: '%s'\n", type, eLog);
-		return;
-	}
-
-	glAttachShader(this->program, shader);
-}
