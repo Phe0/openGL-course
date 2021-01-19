@@ -6,19 +6,26 @@ static const char* vShader = R"""(
 
     layout(location = 0) in vec3 pos;
 
+    out vec4 vCol;
+
     uniform mat4 model;
 
     void main() {
         gl_Position = model * vec4(pos, 1.0);
+        vCol = vec4(clamp(pos, 0.0f, 1.0f), 1.0f);
     }
 )""";
 
 // fragment shader
 static const char* fShader = R"""(
     #version 330
+
+    in vec4 vCol;
+
     out vec4 colour;
+
     void main() {
-        colour = vec4(1.0, 0.0, 0.0, 1.0);
+        colour = vCol;
     }
 )""";
 
@@ -87,9 +94,9 @@ void Triangle::render(double time) {
 
     glm::mat4 model = glm::mat4(1.0f);
     model =
-        glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 0.0f, 1.0f)) *
-        glm::translate(model, glm::vec3(offset, 0.0f, 0.0f)) * 
-        glm::scale(model, glm::vec3(curSize, curSize, 1.0f));
+        //glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 0.0f, 1.0f)) *
+        //glm::translate(model, glm::vec3(offset, 0.0f, 0.0f)) * 
+        glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
 
     glUniformMatrix4fv(this->uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
