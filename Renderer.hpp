@@ -12,6 +12,9 @@ public:
 	GLuint width;
 	GLuint height;
 	GLuint program;
+	int bufferWidth;
+	int bufferHeight;
+
 	Renderer();
 	int runProject();
 	void addShader(GLenum type, const char* source);

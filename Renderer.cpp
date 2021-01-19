@@ -31,8 +31,7 @@ int Renderer::runProject() {
 		return 1;
 	}
 
-	int bufferWidth, bufferHeight;
-	glfwGetFramebufferSize(mainWindow, &bufferWidth, &bufferHeight);
+	glfwGetFramebufferSize(mainWindow, &this->bufferWidth, &this->bufferHeight);
 
 	glfwMakeContextCurrent(mainWindow);
 
@@ -46,7 +45,7 @@ int Renderer::runProject() {
 		return 1;
 	}
 
-	glViewport(0, 0, bufferWidth, bufferHeight);
+	glViewport(0, 0, this->bufferWidth, this->bufferHeight);
 
 	this->startup();
 

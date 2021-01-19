@@ -16,6 +16,9 @@ public:
 	GLuint vbo;
 	GLuint ibo;
 	GLuint uniformModel;
+	GLuint uniformProjection;
+
+	glm::mat4 projection;
 
 	Triangle();
 	void startup();

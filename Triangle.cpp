@@ -9,9 +9,10 @@ static const char* vShader = R"""(
     out vec4 vCol;
 
     uniform mat4 model;
+    uniform mat4 projection;
 
     void main() {
-        gl_Position = model * vec4(pos, 1.0);
+        gl_Position = projection * model * vec4(pos, 1.0);
         vCol = vec4(clamp(pos, 0.0f, 1.0f), 1.0f);
     }
 )""";
@@ -58,6 +59,9 @@ void Triangle::startup() {
 	this->compileShaders();
 
     this->uniformModel = glGetUniformLocation(this->program, "model");
+    this->uniformProjection = glGetUniformLocation(this->program, "projection");
+
+    this->projection = glm::perspective(45.0f, (GLfloat)this->bufferWidth / (GLfloat)this->bufferHeight, 0.1f, 100.0f);
 }
 
 void Triangle::render(double time) {
@@ -97,11 +101,12 @@ void Triangle::render(double time) {
 
     glm::mat4 model = glm::mat4(1.0f);
     model =
-        glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)) *
-        //glm::translate(model, glm::vec3(offset, 0.0f, 0.0f)) * 
-        glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
+        glm::translate(model, glm::vec3(0.0f, 0.0f, -2.5f)) * 
+        // glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)) *
+        glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 
     glUniformMatrix4fv(this->uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+    glUniformMatrix4fv(this->uniformProjection, 1, GL_FALSE, glm::value_ptr(this->projection));
 
     glBindVertexArray(this->vao);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ibo);
