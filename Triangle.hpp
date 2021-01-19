@@ -1,6 +1,11 @@
 #include "Renderer.hpp"
 #include <cmath>
 
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <mat4x4.hpp>
+#include <gtc/type_ptr.hpp>
+
 #ifndef TRIANGLE_HPP
 #define TRIANGLE_HPP
 
@@ -9,7 +14,7 @@ public:
 
 	GLuint vao;
 	GLuint vbo;
-	GLuint uniformXMove;
+	GLuint uniformModel;
 
 	Triangle();
 	void startup();

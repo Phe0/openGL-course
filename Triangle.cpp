@@ -6,10 +6,10 @@ static const char* vShader = R"""(
 
     layout(location = 0) in vec3 pos;
 
-    uniform float xMove;
+    uniform mat4 model;
 
     void main() {
-        gl_Position = vec4(0.4 * pos.x + xMove, 0.4 * pos.y, pos.z, 1.0);
+        gl_Position = model * vec4(pos, 1.0);
     }
 )""";
 
@@ -25,7 +25,16 @@ static const char* fShader = R"""(
 float direction = true;
 float offset = 0.0f;
 float maxOffset = 0.7f;
-float speed = 0.00005f;
+float speed = 0.0005f;
+
+float curAngle = 0.0f;
+
+float sizeDirection = true;
+float curSize = 0.4f;
+float maxSize = 0.8f;
+float minSize = 0.1f;
+
+float const toRadians = 3.14159265f / 180.0f;
 
 Triangle::Triangle() {
     width = 800;
@@ -38,7 +47,7 @@ void Triangle::startup() {
 	this->createTriangle();
 	this->compileShaders();
 
-    this->uniformXMove = glGetUniformLocation(this->program, "xMove");
+    this->uniformModel = glGetUniformLocation(this->program, "model");
 }
 
 void Triangle::render(double time) {
@@ -54,12 +63,35 @@ void Triangle::render(double time) {
         direction = !direction;
     }
 
+    curAngle += 0.01f;
+
+    if (curAngle >= 360) {
+        curAngle -= 360;
+    }
+
+    if (sizeDirection) {
+        curSize += 0.0001f;
+    }
+    else {
+        curSize -= 0.0001f;
+    }
+
+    if (curSize >= maxSize || curSize <= minSize) {
+        sizeDirection = !sizeDirection;
+    }
+
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glUseProgram(this->program);
 
-    glUniform1f(this->uniformXMove, offset);
+    glm::mat4 model = glm::mat4(1.0f);
+    model =
+        glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 0.0f, 1.0f)) *
+        glm::translate(model, glm::vec3(offset, 0.0f, 0.0f)) * 
+        glm::scale(model, glm::vec3(curSize, curSize, 1.0f));
+
+    glUniformMatrix4fv(this->uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
     glBindVertexArray(this->vao);
     glDrawArrays(GL_TRIANGLES, 0, 3);
