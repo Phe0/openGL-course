@@ -1,4 +1,4 @@
-#include "Triangle.hpp"
+#include "Square.hpp"
 
 // vertex shader
 static const char* vShader = R"""(
@@ -43,24 +43,21 @@ float minSize = 0.1f;
 
 float const toRadians = 3.14159265f / 180.0f;
 
-Triangle::Triangle() {
+Square::Square() {
     width = 800;
     height = 600;
     vao = 0;
     vbo = 0;
 }
 
-void Triangle::startup() {
-
-    glEnable(GL_DEPTH_TEST);
-
-	this->createTriangle();
-	this->compileShaders();
+void Square::startup() {
+    this->createSquare();
+    this->compileShaders();
 
     this->uniformModel = glGetUniformLocation(this->program, "model");
 }
 
-void Triangle::render(double time) {
+void Square::render(double time) {
 
     if (direction) {
         offset += speed;
@@ -91,53 +88,38 @@ void Triangle::render(double time) {
     }
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
 
     glUseProgram(this->program);
 
     glm::mat4 model = glm::mat4(1.0f);
     model =
-        glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)) *
+        //glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 0.0f, 1.0f)) *
         //glm::translate(model, glm::vec3(offset, 0.0f, 0.0f)) * 
         glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
 
     glUniformMatrix4fv(this->uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
     glBindVertexArray(this->vao);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ibo);
-    glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
     glBindVertexArray(0);
 
     glUseProgram(0);
 }
 
-void Triangle::finish() {
+void Square::finish() {
 
 }
 
-void Triangle::createTriangle() {
-
-    unsigned int indices[] = {
-        0, 3, 1,
-        1, 3, 2,
-        2, 3, 0,
-        0, 1, 2
-    };
-
+void Square::createSquare() {
     GLfloat vertices[] = {
         -1.0f, -1.0f, 0.0f,
-        0.0f, -1.0f, 1.0f,
         1.0f, -1.0f, 0.0f,
         0.0f, 1.0f, 0.0f
     };
 
     glGenVertexArrays(1, &this->vao);
     glBindVertexArray(this->vao);
-
-    glGenBuffers(1, &this->ibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     glGenBuffers(1, &this->vbo);
     glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
@@ -149,11 +131,9 @@ void Triangle::createTriangle() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glBindVertexArray(0);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void Triangle::compileShaders() {
+void Square::compileShaders() {
     this->program = glCreateProgram();
 
     if (!this->program) {

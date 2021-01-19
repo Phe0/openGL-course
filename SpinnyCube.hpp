@@ -13,6 +13,7 @@ class SpinnyCube : public Renderer {
 
 		GLuint vao;
 		GLuint vbo;
+		GLuint ibo;
 		GLint mv_location;
 		GLint proj_location;
 

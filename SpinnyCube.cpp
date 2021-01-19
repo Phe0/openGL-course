@@ -37,6 +37,8 @@ SpinnyCube::SpinnyCube() {
 
 void SpinnyCube::startup() {
 
+    glEnable(GL_DEPTH_TEST);
+
 	this->program = glCreateProgram();
 
 	this->addShader(GL_VERTEX_SHADER, vShader);
@@ -134,7 +136,7 @@ void SpinnyCube::render(double time) {
 	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glUseProgram(this->program);
 
