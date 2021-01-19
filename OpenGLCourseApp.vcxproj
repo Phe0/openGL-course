@@ -156,6 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SpinnyCube.cpp" />
     <ClCompile Include="Triangle.cpp" />
@@ -164,6 +165,7 @@
     <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="Renderer.hpp" />
     <ClInclude Include="SpinnyCube.hpp" />
     <ClInclude Include="Triangle.hpp" />

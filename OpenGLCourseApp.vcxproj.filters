@@ -22,6 +22,9 @@
     <Filter Include="Arquivos de Origem\Triangle">
       <UniqueIdentifier>{bf9fa397-2336-47a6-8c5e-c286be5c583c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Arquivos de Origem\Mesh">
+      <UniqueIdentifier>{d757418c-85d6-4df1-9d6c-89c23b08bcbf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -35,6 +38,9 @@
     </ClCompile>
     <ClCompile Include="Triangle.cpp">
       <Filter>Arquivos de Origem\Triangle</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Arquivos de Origem\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +57,9 @@
     </ClInclude>
     <ClInclude Include="Triangle.hpp">
       <Filter>Arquivos de Origem\Triangle</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.hpp">
+      <Filter>Arquivos de Origem\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
