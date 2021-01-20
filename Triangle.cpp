@@ -32,13 +32,19 @@ void Triangle::startup() {
 	this->createTriangle();
     this->createShaders();
 
+    camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 5.0f, 0.5f);
+
     GLuint uniformModel = 0;
     GLuint uniformProject = 0;
+    GLuint uniformView = 0;
 
     this->projection = glm::perspective(45.0f, (GLfloat)this->bufferWidth / (GLfloat)this->bufferHeight, 0.1f, 100.0f);
 }
 
 void Triangle::render(double time) {
+
+    this->camera.keyControl(this->keys, this->deltaTime);
+    this->camera.mouseControl(this->getXChange(), this->getYChange());
 
     if (direction) {
         offset += speed;
@@ -74,15 +80,17 @@ void Triangle::render(double time) {
     this->shaderList[0].useShader();
     uniformModel = shaderList[0].getModelLocation();
     uniformProjection = shaderList[0].getProjectionLocation();
+    uniformView = shaderList[0].getViewLocation();
 
     glm::mat4 model = glm::mat4(1.0f);
     model =
         glm::translate(model, glm::vec3(0.0f, 0.0f, -2.5f)) * 
-        glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)) *
+        //glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)) *
         glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 
     glUniformMatrix4fv(this->uniformModel, 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(this->uniformProjection, 1, GL_FALSE, glm::value_ptr(this->projection));
+    glUniformMatrix4fv(this->uniformView, 1, GL_FALSE, glm::value_ptr(this->camera.claculateViewMatrix()));
 
     meshList[0]->renderMesh();
 

@@ -18,6 +18,8 @@ public:
 
 	GLuint uniformModel;
 	GLuint uniformProjection;
+	GLuint uniformView;
+
 	std::vector<Mesh*> meshList;
 	std::vector<Shader> shaderList;
 

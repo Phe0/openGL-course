@@ -5,6 +5,13 @@ Renderer::Renderer() {
 	width = 700;
 	height = 400;
 	program = 0;
+
+	for (size_t i = 0; i < 1024; i++) {
+		keys[i] = 0;
+	}
+
+	xChange = 0.0f;
+	yChange = 0.0f;
 }
 
 int Renderer::runProject() {
@@ -23,38 +30,48 @@ int Renderer::runProject() {
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 
-	GLFWwindow* mainWindow = glfwCreateWindow(this->width, this->height, "Test Window", NULL, NULL);
+	this->mainWindow = glfwCreateWindow(this->width, this->height, "Test Window", NULL, NULL);
 
-	if (!mainWindow) {
+	if (!this->mainWindow) {
 		printf("GLFW window creation failed");
 		glfwTerminate();
 		return 1;
 	}
 
-	glfwGetFramebufferSize(mainWindow, &this->bufferWidth, &this->bufferHeight);
+	glfwGetFramebufferSize(this->mainWindow, &this->bufferWidth, &this->bufferHeight);
 
-	glfwMakeContextCurrent(mainWindow);
+	glfwMakeContextCurrent(this->mainWindow);
+
+	this->createCallbacks();
+	glfwSetInputMode(this->mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glewExperimental = GL_TRUE;
 
 
 	if (glewInit() != GLEW_OK) {
 		printf("GLEW initialization failed");
-		glfwDestroyWindow(mainWindow);
+		glfwDestroyWindow(this->mainWindow);
 		glfwTerminate();
 		return 1;
 	}
 
 	glViewport(0, 0, this->bufferWidth, this->bufferHeight);
 
+	glfwSetWindowUserPointer(this->mainWindow, this);
+
 	this->startup();
 
-	while (!glfwWindowShouldClose(mainWindow)) {
+	while (!glfwWindowShouldClose(this->mainWindow)) {
 		glfwPollEvents();
 
-		this->render(glfwGetTime());
+		GLfloat now = glfwGetTime();
 
-		glfwSwapBuffers(mainWindow);
+		this->deltaTime = now - this->lastTime;
+		this->lastTime = now;
+
+		this->render(now);
+
+		glfwSwapBuffers(this->mainWindow);
 	}
 
 	this->finish();
@@ -62,4 +79,54 @@ int Renderer::runProject() {
 	glfwTerminate();
 
 	return 0;
+}
+
+void Renderer::createCallbacks() {
+	glfwSetKeyCallback(this->mainWindow, this->handleKeys);
+	glfwSetCursorPosCallback(this->mainWindow, this->handleMouse);
+}
+
+void Renderer::handleKeys(GLFWwindow* window, int key, int code, int action, int mode) {
+	Renderer* theRenderer = static_cast<Renderer*>(glfwGetWindowUserPointer(window));
+
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
+
+	if (key >= 0 && key < 1024) {
+		if (action == GLFW_PRESS) {
+			theRenderer->keys[key] = true; \
+		}
+		else if (action == GLFW_RELEASE) {
+			theRenderer->keys[key] = false;
+		}
+	}
+}
+
+void Renderer::handleMouse(GLFWwindow* window, double xPos, double yPos) {
+	Renderer* theRenderer = static_cast<Renderer*>(glfwGetWindowUserPointer(window));
+
+	if (theRenderer->mouseFirstMoved) {
+		theRenderer->lastx = xPos;
+		theRenderer->lasty = yPos;
+		theRenderer->mouseFirstMoved = false;
+	}
+
+	theRenderer->xChange = xPos - theRenderer->lastx;
+	theRenderer->yChange = theRenderer->lasty - yPos;
+
+	theRenderer->lastx = xPos;
+	theRenderer->lasty = yPos;
+}
+
+GLfloat Renderer::getXChange() {
+	GLfloat theChange = this->xChange;
+	this->xChange = 0.0f;
+	return theChange;
+}
+
+GLfloat Renderer::getYChange() {
+	GLfloat theChange = this->yChange;
+	this->yChange = 0.0f;
+	return theChange;
 }
