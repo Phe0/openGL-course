@@ -23,6 +23,8 @@ public:
 	GLuint uniformView;
 	GLuint uniformAmbientIntensity;
 	GLuint uniformAmbientColor;
+	GLuint uniformDirection;
+	GLuint uniformDiffuseIntensity;
 
 	Texture brickTexture;
 	Texture dirtTexture;
@@ -40,6 +42,8 @@ public:
 	void finish();
 	void createTriangle();
 	void createShaders();
+
+	void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat* vertices, unsigned int verticesCount, unsigned int vLength, unsigned int normalOffset);
 };
 
 #endif
