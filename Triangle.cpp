@@ -1,4 +1,4 @@
-#include "Triangle.hpp"
+#include "Triangle.h"
 
 // vertex shader
 static const char* vShader = "Shaders/shader.vert";
@@ -32,11 +32,12 @@ void Triangle::startup() {
 	this->createTriangle();
     this->createShaders();
 
-    camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 5.0f, 0.5f);
+    camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 5.0f, 0.05f);
 
-    GLuint uniformModel = 0;
-    GLuint uniformProject = 0;
-    GLuint uniformView = 0;
+    this->brickTexture = Texture((char*)"Textures/brick.png");
+    this->brickTexture.loadTexture();
+
+    this->mainLight = Light(1.0f, 1.0f, 1.0f, 0.2f);
 
     this->projection = glm::perspective(45.0f, (GLfloat)this->bufferWidth / (GLfloat)this->bufferHeight, 0.1f, 100.0f);
 }
@@ -78,19 +79,25 @@ void Triangle::render(double time) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     this->shaderList[0].useShader();
-    uniformModel = shaderList[0].getModelLocation();
-    uniformProjection = shaderList[0].getProjectionLocation();
-    uniformView = shaderList[0].getViewLocation();
+    this->uniformModel = shaderList[0].getModelLocation();
+    this->uniformProjection = shaderList[0].getProjectionLocation();
+    this->uniformView = shaderList[0].getViewLocation();
+    this->uniformAmbientColor = shaderList[0].getAmbientColorLocation();
+    this->uniformAmbientIntensity = shaderList[0].getAmbientIntensityLocation();
+
+    mainLight.useLight(this->uniformAmbientIntensity, this->uniformAmbientColor);
 
     glm::mat4 model = glm::mat4(1.0f);
     model =
         glm::translate(model, glm::vec3(0.0f, 0.0f, -2.5f)) * 
-        //glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)) *
+        glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)) *
         glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 
     glUniformMatrix4fv(this->uniformModel, 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(this->uniformProjection, 1, GL_FALSE, glm::value_ptr(this->projection));
     glUniformMatrix4fv(this->uniformView, 1, GL_FALSE, glm::value_ptr(this->camera.claculateViewMatrix()));
+    
+    this->brickTexture.useTexture();
 
     meshList[0]->renderMesh();
 
@@ -111,14 +118,14 @@ void Triangle::createTriangle() {
     };
 
     GLfloat vertices[] = {
-        -1.0f, -1.0f, 0.0f,
-        0.0f, 0.0f, 1.0f,
-        1.0f, -1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f
+        -1.0f, -1.0f, 0.0f, 0.0f , 0.0f,
+         0.0f, -1.0f, 1.0f, 0.5f, 0.0f,
+         1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+         0.0f,  1.0f, 0.0f, 0.5f, 1.0f
     };
 
     Mesh* obj1 = new Mesh();
-    obj1->createMesh(vertices, indices, 12, 12);
+    obj1->createMesh(vertices, indices, 20, 12);
     meshList.push_back(obj1);
 }
 

@@ -1,4 +1,4 @@
-#include "Renderer.hpp"
+#include "Renderer.h"
 #include <cmath>
 #include <vector>
 
@@ -7,8 +7,10 @@
 #include <mat4x4.hpp>
 #include <gtc/type_ptr.hpp>
 
-#include "Mesh.hpp"
-#include "Shader.hpp"
+#include "Mesh.h"
+#include "Shader.h"
+#include "Texture.h"
+#include "Light.h"
 
 #ifndef TRIANGLE_HPP
 #define TRIANGLE_HPP
@@ -19,6 +21,13 @@ public:
 	GLuint uniformModel;
 	GLuint uniformProjection;
 	GLuint uniformView;
+	GLuint uniformAmbientIntensity;
+	GLuint uniformAmbientColor;
+
+	Texture brickTexture;
+	Texture dirtTexture;
+
+	Light mainLight;
 
 	std::vector<Mesh*> meshList;
 	std::vector<Shader> shaderList;

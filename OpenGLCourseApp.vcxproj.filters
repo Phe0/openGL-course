@@ -13,40 +13,31 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Arquivos de Origem\Renderer">
-      <UniqueIdentifier>{920d6cd5-9de7-451c-bd07-30e8bc639b86}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Arquivos de Origem\Triangle">
-      <UniqueIdentifier>{bf9fa397-2336-47a6-8c5e-c286be5c583c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Arquivos de Origem\Mesh">
-      <UniqueIdentifier>{d757418c-85d6-4df1-9d6c-89c23b08bcbf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Arquivos de Origem\Shader">
-      <UniqueIdentifier>{6e88afcf-8d65-4cfa-a6d0-afb962bf3bec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Arquivos de Origem\Camera">
-      <UniqueIdentifier>{af4a7f23-c1db-44e4-9cfb-cedd619e6e66}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Arquivos de Origem\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Triangle.cpp">
-      <Filter>Arquivos de Origem\Triangle</Filter>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Arquivos de Origem</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Arquivos de Origem\Mesh</Filter>
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Arquivos de Origem</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>Arquivos de Origem\Shader</Filter>
+      <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Arquivos de Origem\Camera</Filter>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,20 +46,26 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Renderer.hpp">
-      <Filter>Arquivos de Origem\Renderer</Filter>
+    <ClInclude Include="Triangle.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="Triangle.hpp">
-      <Filter>Arquivos de Origem\Triangle</Filter>
+    <ClInclude Include="Texture.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.hpp">
-      <Filter>Arquivos de Origem\Mesh</Filter>
+    <ClInclude Include="Shader.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.hpp">
-      <Filter>Arquivos de Origem\Shader</Filter>
+    <ClInclude Include="Renderer.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.hpp">
-      <Filter>Arquivos de Origem\Camera</Filter>
+    <ClInclude Include="Mesh.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

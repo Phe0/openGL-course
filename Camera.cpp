@@ -1,4 +1,4 @@
-#include "Camera.hpp"
+#include "Camera.h"
 
 Camera::Camera() {
 
@@ -52,9 +52,6 @@ void Camera::mouseControl(GLfloat xChange, GLfloat yChange) {
 
 	this->yaw += xChange;
 	this->pitch += yChange;
-
-	printf("%.6f\n", xChange);
-	printf("%.6f\n\n", yChange);
 
 	if (this->pitch > 89.0f) {
 		this->pitch = 89.0f;
