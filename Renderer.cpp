@@ -93,6 +93,10 @@ void Renderer::handleKeys(GLFWwindow* window, int key, int code, int action, int
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}
 
+	if (key == GLFW_KEY_Q && action == GLFW_PRESS) {
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
+
 	if (key >= 0 && key < 1024) {
 		if (action == GLFW_PRESS) {
 			theRenderer->keys[key] = true; \
