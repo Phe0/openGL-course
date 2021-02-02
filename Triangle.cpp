@@ -21,8 +21,8 @@ float minSize = 0.1f;
 float const toRadians = 3.14159265f / 180.0f;
 
 Triangle::Triangle() {
-    width = 800;
-    height = 600;
+    width = 1366;
+    height = 768;
 }
 
 void Triangle::startup() {
@@ -37,7 +37,10 @@ void Triangle::startup() {
     this->brickTexture = Texture((char*)"Textures/brick.png");
     this->brickTexture.loadTexture();
 
-    this->mainLight = Light(1.0f, 1.0f, 1.0f, 0.2f, 2.0f, -1.0f, -2.0f, 1.0f);
+    this->shinyMaterial = Material(1.0f, 32);
+    this->dullMaterial = Material(0.3f, 4);
+
+    this->mainLight = Light(1.0f, 1.0f, 1.0f, 0.2f, 2.0f, -1.0f, -2.0f, 0.3f);
 
     this->projection = glm::perspective(45.0f, (GLfloat)this->bufferWidth / (GLfloat)this->bufferHeight, 0.1f, 100.0f);
 }
@@ -58,7 +61,7 @@ void Triangle::render(double time) {
         direction = !direction;
     }
 
-    curAngle += 0.01f;
+    curAngle += 0.1f;
 
     if (curAngle >= 360) {
         curAngle -= 360;
@@ -86,20 +89,25 @@ void Triangle::render(double time) {
     this->uniformAmbientIntensity = shaderList[0].getAmbientIntensityLocation();
     this->uniformDirection = shaderList[0].getDirectionLocation();
     this->uniformDiffuseIntensity = shaderList[0].getDiffuseIntensityLocation();
+    this->uniformEyePosition = shaderList[0].getEyePositionLocation();
+    this->uniformSpecularIntensity = shaderList[0].getSpecularIntensityLocation();
+    this->uniformShininess = shaderList[0].getShininessLocation();
 
     mainLight.useLight(this->uniformAmbientIntensity, this->uniformAmbientColor, this->uniformDiffuseIntensity, this->uniformDirection);
+
+    glUniformMatrix4fv(this->uniformProjection, 1, GL_FALSE, glm::value_ptr(this->projection));
+    glUniformMatrix4fv(this->uniformView, 1, GL_FALSE, glm::value_ptr(this->camera.claculateViewMatrix()));
+    glUniform3f(this->uniformEyePosition, this->camera.getCameraPosition().x, this->camera.getCameraPosition().y, this->camera.getCameraPosition().z);
 
     glm::mat4 model = glm::mat4(1.0f);
     model =
         glm::translate(model, glm::vec3(0.0f, 0.0f, -2.5f)) * 
-        glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)) *
-        glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+        glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 
     glUniformMatrix4fv(this->uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(this->uniformProjection, 1, GL_FALSE, glm::value_ptr(this->projection));
-    glUniformMatrix4fv(this->uniformView, 1, GL_FALSE, glm::value_ptr(this->camera.claculateViewMatrix()));
     
     this->brickTexture.useTexture();
+    this->dullMaterial.useMaterial(this->uniformSpecularIntensity, this->uniformShininess);
 
     meshList[0]->renderMesh();
 
@@ -121,10 +129,10 @@ void Triangle::createTriangle() {
 
     GLfloat vertices[] = {
     //   x      y     z     u     v     nx    ny    nz
-        -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-         0.0f, -1.0f, 1.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f,
-         1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-         0.0f,  1.0f, 0.0f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f,
+        -1.0f, -1.0f, -0.6f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+         0.0f, -1.0f,  1.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f,
+         1.0f, -1.0f, -0.6f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+         0.0f,  1.0f,  0.0f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f,
     };
 
     calcAverageNormals(indices, 12, vertices, 32, 8, 5);

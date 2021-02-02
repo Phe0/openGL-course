@@ -11,6 +11,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Light.h"
+#include "Material.h"
 
 #ifndef TRIANGLE_HPP
 #define TRIANGLE_HPP
@@ -25,9 +26,15 @@ public:
 	GLuint uniformAmbientColor;
 	GLuint uniformDirection;
 	GLuint uniformDiffuseIntensity;
+	GLuint uniformEyePosition;
+	GLuint uniformSpecularIntensity;
+	GLuint uniformShininess;
 
 	Texture brickTexture;
 	Texture dirtTexture;
+
+	Material shinyMaterial;
+	Material dullMaterial;
 
 	Light mainLight;
 

@@ -68,6 +68,10 @@ glm::mat4 Camera::claculateViewMatrix() {
 	return glm::lookAt(this->position, this->position + this->front, this->up);
 }
 
+glm::vec3 Camera::getCameraPosition() {
+	return this->position;
+}
+
 Camera::~Camera() {
 
 }

@@ -76,6 +76,8 @@ void Shader::compileShader(const char* vertexCode, const char* fragmentCode) {
     this->uniformAmbientIntensity = glGetUniformLocation(this->shaderID, "directionalLight.ambientIntensity");
     this->uniformDirection = glGetUniformLocation(this->shaderID, "directionalLight.direction");
     this->uniformDiffuseIntensity = glGetUniformLocation(this->shaderID, "directionalLight.diffuseIntensity");
+    this->uniformSpecularIntensity = glGetUniformLocation(this->shaderID, "material.specularIntensity");
+    this->uniformShininess = glGetUniformLocation(this->shaderID, "material.shininess");
 }
 
 GLuint Shader::getProjectionLocation() {
@@ -104,6 +106,18 @@ GLuint Shader::getDirectionLocation() {
 
 GLuint Shader::getDiffuseIntensityLocation() {
     return this->uniformDiffuseIntensity;
+}
+
+GLuint Shader::getSpecularIntensityLocation() {
+    return this->uniformSpecularIntensity;
+}
+
+GLuint Shader::getShininessLocation() {
+    return this->uniformShininess;
+}
+
+GLuint Shader::getEyePositionLocation() {
+    return this->uniformEyePosition;
 }
 
 void Shader::useShader() {
