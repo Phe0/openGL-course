@@ -37,10 +37,34 @@ void Triangle::startup() {
     this->brickTexture = Texture((char*)"Textures/brick.png");
     this->brickTexture.loadTexture();
 
-    this->shinyMaterial = Material(1.0f, 32);
+    this->dirtTexture = Texture((char*)"Textures/dirt.png");
+    this->dirtTexture.loadTexture();
+
+    this->plainTexture = Texture((char*)"Textures/plain.png");
+    this->plainTexture.loadTexture();
+
+    this->shinyMaterial = Material(4.0f, 256);
     this->dullMaterial = Material(0.3f, 4);
 
-    this->mainLight = Light(1.0f, 1.0f, 1.0f, 0.2f, 2.0f, -1.0f, -2.0f, 0.3f);
+    this->mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
+                                        0.0f, 0.0f,
+                                        0.0f, 0.0f, -1.0f);
+
+    this->pointLightCount = 0;
+
+    this->pointLights[0] = PointLight(0.0f, 0.0f, 1.0f,
+                                      0.0f, 1.0f,
+                                      4.0f, 0.0f, 0.0f,
+                                      0.3f, 0.2f, 0.1f);
+    this->pointLightCount++;
+
+
+    this->pointLights[1] = PointLight(0.0f, 1.0f, 0.0f,
+                                      0.0f, 1.0f,
+                                      -4.0f, 2.0f, 0.0f,
+                                      0.3f, 0.1f, 0.1f);                                  
+    
+    this->pointLightCount++;
 
     this->projection = glm::perspective(45.0f, (GLfloat)this->bufferWidth / (GLfloat)this->bufferHeight, 0.1f, 100.0f);
 }
@@ -85,15 +109,12 @@ void Triangle::render(double time) {
     this->uniformModel = shaderList[0].getModelLocation();
     this->uniformProjection = shaderList[0].getProjectionLocation();
     this->uniformView = shaderList[0].getViewLocation();
-    this->uniformAmbientColor = shaderList[0].getAmbientColorLocation();
-    this->uniformAmbientIntensity = shaderList[0].getAmbientIntensityLocation();
-    this->uniformDirection = shaderList[0].getDirectionLocation();
-    this->uniformDiffuseIntensity = shaderList[0].getDiffuseIntensityLocation();
     this->uniformEyePosition = shaderList[0].getEyePositionLocation();
     this->uniformSpecularIntensity = shaderList[0].getSpecularIntensityLocation();
     this->uniformShininess = shaderList[0].getShininessLocation();
 
-    mainLight.useLight(this->uniformAmbientIntensity, this->uniformAmbientColor, this->uniformDiffuseIntensity, this->uniformDirection);
+    shaderList[0].setDirectionLight(&mainLight);
+    shaderList[0].setPointLights(this->pointLights, this->pointLightCount);
 
     glUniformMatrix4fv(this->uniformProjection, 1, GL_FALSE, glm::value_ptr(this->projection));
     glUniformMatrix4fv(this->uniformView, 1, GL_FALSE, glm::value_ptr(this->camera.claculateViewMatrix()));
@@ -110,6 +131,17 @@ void Triangle::render(double time) {
     this->dullMaterial.useMaterial(this->uniformSpecularIntensity, this->uniformShininess);
 
     meshList[0]->renderMesh();
+
+    model = glm::mat4(1.0f);
+    model =
+        glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
+
+    glUniformMatrix4fv(this->uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+    
+    this->plainTexture.useTexture();
+    this->shinyMaterial.useMaterial(this->uniformSpecularIntensity, this->uniformShininess);
+
+    meshList[1]->renderMesh();
 
     glUseProgram(0);
 }
@@ -135,11 +167,27 @@ void Triangle::createTriangle() {
          0.0f,  1.0f,  0.0f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f,
     };
 
+    unsigned int floorIndices[] = {
+        0, 2, 1,
+        1, 2, 3
+    };
+
+    GLfloat floorVertices[] = {
+        -10.0f, 0.0f, -10.0f,  0.0f,  0.0f,  0.0f, -1.0f, 0.0f,
+         10.0f, 0.0f, -10.0f, 10.0f,  0.0f,  0.0f, -1.0f, 0.0f,
+        -10.0f, 0.0f,  10.0f,  0.0f, 10.0f,  0.0f, -1.0f, 0.0f,
+         10.0f, 0.0f,  10.0f, 10.0f, 10.0f,  0.0f, -1.0f, 0.0f,
+    };
+
     calcAverageNormals(indices, 12, vertices, 32, 8, 5);
 
     Mesh* obj1 = new Mesh();
     obj1->createMesh(vertices, indices, 32, 12);
     meshList.push_back(obj1);
+
+    Mesh* floor = new Mesh();
+    floor->createMesh(floorVertices, floorIndices, 32, 6);
+    meshList.push_back(floor);
 }
 
 void Triangle::createShaders() {

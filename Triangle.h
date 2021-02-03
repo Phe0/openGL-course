@@ -10,8 +10,10 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
-#include "Light.h"
+#include "DirectionalLight.h"
 #include "Material.h"
+#include "CommonValues.h"
+#include "PointLight.h"
 
 #ifndef TRIANGLE_HPP
 #define TRIANGLE_HPP
@@ -22,21 +24,21 @@ public:
 	GLuint uniformModel;
 	GLuint uniformProjection;
 	GLuint uniformView;
-	GLuint uniformAmbientIntensity;
-	GLuint uniformAmbientColor;
-	GLuint uniformDirection;
-	GLuint uniformDiffuseIntensity;
 	GLuint uniformEyePosition;
 	GLuint uniformSpecularIntensity;
 	GLuint uniformShininess;
 
 	Texture brickTexture;
 	Texture dirtTexture;
+	Texture plainTexture;
 
 	Material shinyMaterial;
 	Material dullMaterial;
 
-	Light mainLight;
+	DirectionalLight mainLight;
+	PointLight pointLights[MAX_POINT_LIGHTS];
+
+	unsigned int pointLightCount;
 
 	std::vector<Mesh*> meshList;
 	std::vector<Shader> shaderList;
